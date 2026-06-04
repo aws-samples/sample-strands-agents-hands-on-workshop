@@ -29,3 +29,6 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+
+# Diagram sources (keep only exported PNGs)
+*.drawio
