@@ -1,6 +1,6 @@
 # Build a Production AI Agent: Strands Agents Hands-On Workshop
 
-Build a production-ready customer service AI agent from scratch with the [Strands Agents](https://strandsagents.com/latest/?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el) SDK — adding tools, guardrails, memory, multi-agent delegation, evals, and deployment to [Amazon Bedrock AgentCore](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el) one module at a time.
+Build a production-ready customer service AI agent from scratch with the [Strands Agents](https://strandsagents.com/latest/?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el) SDK — the open-source **agent harness SDK** from AWS — adding tools, guardrails, memory, multi-agent delegation, evals, and deployment to [Amazon Bedrock AgentCore](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el) one module at a time.
 
 ![Strands Agents](https://img.shields.io/badge/Strands_Agents-SDK-FF9900?logo=amazonaws&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)
@@ -14,6 +14,19 @@ Build a production-ready customer service AI agent from scratch with the [Strand
 ## What you'll build
 
 A single customer service agent that grows across 7 modules. Each module is a self-contained notebook (12–15 min) that adds one production capability — starting from a bare agent loop and ending with a deployed agent on AgentCore Runtime. Total time: about 90 minutes.
+
+## What is an agent harness?
+
+An **agent harness** is the system that lets an agent actually run: the orchestration loop that calls the model, decides which tool to invoke, passes results back, manages the context window, and handles failures — plus the infrastructure underneath it (compute, a code sandbox, secure tool connections, persistent storage, memory, identity, and observability).
+
+Strands Agents is the open-source **agent harness SDK** for building that orchestration layer with end-to-end control. Amazon Bedrock AgentCore provides a [managed agent harness](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/harness.html?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el) that runs it in production — and the [AgentCore harness is powered by Strands Agents](https://strandsagents.com/?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el). This workshop builds the harness layer by layer:
+
+| Layer | What it is | Where in this workshop |
+|-------|-----------|------------------------|
+| Orchestration | The loop: model calls, tool selection, context, failure handling | Strands Agents (Modules 1–6) |
+| Infrastructure | Compute, sandbox, memory, identity, observability | Amazon Bedrock AgentCore Runtime (Module 7) |
+
+Because the harness is config-driven, trying a different model or adding a tool is a config change, not a code rewrite.
 
 ## Modules
 
@@ -99,8 +112,11 @@ Yes. Each module builds on the previous one — the same customer service agent 
 **Which Claude model does this use?**
 The modules default to Claude Sonnet 4 via Amazon Bedrock. You need Bedrock model access enabled in your AWS account.
 
+**What is the difference between an agent framework and an agent harness?**
+A framework gives you the orchestration loop (model calls, tool selection, context). A harness is the full system that lets the agent run: the loop *plus* compute, a code sandbox, tool connections, memory, identity, and observability. Strands Agents is positioned as an agent harness SDK; Amazon Bedrock AgentCore provides a managed harness so you skip building that infrastructure from scratch.
+
 **Can I use a framework other than Strands Agents?**
-The patterns shown here — tool use, hooks, session memory, multi-agent handoff, and LLM-as-judge evals — are framework-agnostic and map to LangGraph, AutoGen, and CrewAI. This workshop implements them with the Strands Agents SDK.
+The patterns shown here — tool use, hooks, session memory, multi-agent handoff, and LLM-as-judge evals — are framework-agnostic and map to LangGraph, AutoGen, and CrewAI. AgentCore is also framework-agnostic: it runs agents from any framework, not only Strands. This workshop implements the patterns with the Strands Agents SDK.
 
 **How long does the full workshop take?**
 About 90 minutes for all 7 modules. Each module is self-contained and takes 10–15 minutes.
@@ -115,6 +131,7 @@ You need Amazon Bedrock access from Module 1. Additional services (AWS Lambda, A
 - [Strands Agents Documentation](https://strandsagents.com/latest/?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el)
 - [Strands Agents SDK on GitHub](https://github.com/strands-agents/sdk-python)
 - [Amazon Bedrock AgentCore Documentation](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el)
+- [AgentCore harness (managed agent harness)](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/harness.html?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el)
 - [Full Video Course](https://github.com/morganwillisaws/strands-course) — Deep dives on every topic covered here
 
 ---
