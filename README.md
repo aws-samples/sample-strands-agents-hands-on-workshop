@@ -19,7 +19,7 @@ A single customer service agent that grows across 7 modules. Each module is a se
 
 An **agent harness** is the system that lets an agent actually run: the orchestration loop that calls the model, decides which tool to invoke, passes results back, manages the context window, and handles failures — plus the infrastructure underneath it (compute, a code sandbox, secure tool connections, persistent storage, memory, identity, and observability).
 
-**Strands Agents is the open-source agent harness SDK** — you don't just write a prompt, you build and control the whole harness (the loop, tools, hooks, memory, guardrails) end-to-end. Amazon Bedrock AgentCore then provides a [managed agent harness](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/harness.html?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el) that runs it in production — and the [AgentCore harness is powered by Strands Agents](https://strandsagents.com/?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el), so the harness you build is the harness that ships. This workshop builds it layer by layer:
+**Strands Agents is the open-source agent harness SDK** — you don't just write a prompt, you build and control the whole harness (the loop, tools, hooks, memory, guardrails) end-to-end. This workshop builds it layer by layer and then deploys an agent to [Amazon Bedrock AgentCore Runtime](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agents-tools-runtime.html) as the hosting layer:
 
 | Stage | What you do | With |
 |-------|------------|------|
@@ -113,16 +113,16 @@ Yes. Each module builds on the previous one — the same customer service agent 
 The modules default to Claude Sonnet 4 via Amazon Bedrock. You need Bedrock model access enabled in your AWS account.
 
 **What is the difference between an agent framework and an agent harness?**
-A framework gives you the orchestration loop (model calls, tool selection, context). A harness is the full system that lets the agent run: the loop *plus* compute, a code sandbox, tool connections, memory, identity, and observability. Strands Agents is positioned as an agent harness SDK; Amazon Bedrock AgentCore provides a managed harness so you skip building that infrastructure from scratch.
+A framework gives you the orchestration loop (model calls, tool selection, context). A harness is the full system that lets the agent run: the loop *plus* compute, a code sandbox, tool connections, memory, identity, and observability. 
 
 **Can I use a framework other than Strands Agents?**
-The patterns shown here — tool use, hooks, session memory, multi-agent handoff, and LLM-as-judge evals — are framework-agnostic and map to LangGraph, AutoGen, and CrewAI. AgentCore is also framework-agnostic: it runs agents from any framework, not only Strands. This workshop implements the patterns with the Strands Agents SDK.
+The patterns shown here — tool use, hooks, session memory, multi-agent handoff, and LLM-as-judge evals — can be applied to any agent harness. This workshop implements the patterns with the Strands Agents SDK.
 
 **How long does the full workshop take?**
 About 90 minutes for all 7 modules. Each module is self-contained and takes 10–15 minutes.
 
 **Do I need AWS resources to run the early modules?**
-You need Amazon Bedrock access from Module 1. Additional services (AWS Lambda, AgentCore Gateway, AgentCore Memory) are only required for the deployment module.
+You need Amazon Bedrock access from Module 1. Additional services (AWS Bedrock AgentCore Runtime, Amazon S3) are only required for the deployment module.
 
 ---
 
