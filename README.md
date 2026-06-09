@@ -1,6 +1,6 @@
 # Build a Production AI Agent: Strands Agents Hands-On Workshop
 
-Build a production-ready customer service AI agent from scratch with the [Strands Agents](https://strandsagents.com/latest/?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el) SDK — the open-source **agent harness SDK** from AWS — adding tools, guardrails, memory, multi-agent delegation, evals, and deployment to [Amazon Bedrock AgentCore](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el) one module at a time.
+Build a production-ready customer service AI agent from scratch with the [Strands Agents](https://strandsagents.com/latest/?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el) SDK — the open-source **agent harness SDK** — adding tools, guardrails, memory, multi-agent delegation, evals, and deployment to [Amazon Bedrock AgentCore](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el) one module at a time.
 
 ![Strands Agents](https://img.shields.io/badge/Strands_Agents-SDK-FF9900?logo=amazonaws&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)
@@ -19,12 +19,12 @@ A single customer service agent that grows across 7 modules. Each module is a se
 
 An **agent harness** is the system that lets an agent actually run: the orchestration loop that calls the model, decides which tool to invoke, passes results back, manages the context window, and handles failures — plus the infrastructure underneath it (compute, a code sandbox, secure tool connections, persistent storage, memory, identity, and observability).
 
-Strands Agents is the open-source **agent harness SDK** for building that orchestration layer with end-to-end control. Amazon Bedrock AgentCore provides a [managed agent harness](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/harness.html?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el) that runs it in production — and the [AgentCore harness is powered by Strands Agents](https://strandsagents.com/?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el). This workshop builds the harness layer by layer:
+**Strands Agents is the open-source agent harness SDK** — you don't just write a prompt, you build and control the whole harness (the loop, tools, hooks, memory, guardrails) end-to-end. Amazon Bedrock AgentCore then provides a [managed agent harness](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/harness.html?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el) that runs it in production — and the [AgentCore harness is powered by Strands Agents](https://strandsagents.com/?trk=87c4c426-cddf-4799-a299-273337552ad8&sc_channel=el), so the harness you build is the harness that ships. This workshop builds it layer by layer:
 
-| Layer | What it is | Where in this workshop |
-|-------|-----------|------------------------|
-| Orchestration | The loop: model calls, tool selection, context, failure handling | Strands Agents (Modules 1–6) |
-| Infrastructure | Compute, sandbox, memory, identity, observability | Amazon Bedrock AgentCore Runtime (Module 7) |
+| Stage | What you do | With |
+|-------|------------|------|
+| Build the harness | Assemble the loop, tools, hooks, skills, memory, multi-agent, and evals — controlling each layer | Strands Agents (Modules 1–6) |
+| Run the harness | Operate the same harness in production — managed compute, memory, identity, observability | Amazon Bedrock AgentCore Runtime (Module 7) |
 
 Because the harness is config-driven, trying a different model or adding a tool is a config change, not a code rewrite.
 
