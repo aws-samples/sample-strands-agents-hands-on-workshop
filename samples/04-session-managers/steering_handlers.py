@@ -114,7 +114,7 @@ If the agent violates any of these, provide specific guidance on what to fix."""
         print("[TONE] 🔍 Evaluating agent response...")
         result = await super().steer_after_model(**kwargs)
         action_type = type(result).__name__
-        print(f"[TONE] {'✅ Approved' if action_type == 'Proceed' else '⚠️  Guided: ' + getattr(result, 'reason', '')}")
+        print(f"[TONE] {'✅ Tone OK' if action_type == 'Proceed' else '⚠️  Tone guided: ' + getattr(result, 'reason', '')}")
         return result
 
 

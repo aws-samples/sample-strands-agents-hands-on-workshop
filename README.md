@@ -23,8 +23,9 @@ An **agent harness** is the system that lets an agent actually run: the orchestr
 
 | Stage | What you do | With |
 |-------|------------|------|
-| Build the harness | Assemble the loop, tools, hooks, skills, memory, multi-agent, and evals — controlling each layer | Strands Agents (Modules 1–6) |
-| Run the harness | Operate the same harness in production — managed compute, memory, identity, observability | Amazon Bedrock AgentCore Runtime (Module 7) |
+| Build the harness | Assemble the loop, tools, hooks, skills, and memory — controlling each layer | Strands Agents (Modules 1–4) |
+| Run the harness | Operate the same harness in production — managed compute, memory, identity, observability | Amazon Bedrock AgentCore Runtime (Module 5) |
+| Go further (optional) | Add multi-agent delegation and automated evals on top of the deployed agent | Strands Agents (Modules 6–7) |
 
 Because the harness is config-driven, trying a different model or adding a tool is a config change, not a code rewrite.
 
@@ -36,9 +37,9 @@ Because the harness is config-driven, trying a different model or adding a tool 
 | 2 | [Hooks](./samples/02-hooks/) | 10 min | Rate limiter that caps runaway tool calls with deterministic code |
 | 3 | [Skills + Steering](./samples/03-skills-steering/) | 15 min | Workflow skills, refund enforcement, and a tone guardrail |
 | 4 | [Session Managers](./samples/04-session-managers/) | 10 min | Persistent memory that survives restarts |
-| 5 | [Multi-Agent](./samples/05-multi-agent/) | 15 min | Delegation to a tech support specialist agent |
-| 6 | [Evals](./samples/06-evals/) | 13 min | Automated quality testing with LLM-as-judge |
-| 7 | [Deploy](./samples/07-deploy/) | 15 min | Deployment to Amazon Bedrock AgentCore Runtime |
+| 5 | [Deploy](./samples/05-deploy/) | 15 min | Deployment to Amazon Bedrock AgentCore Runtime |
+| 6 | [Multi-Agent](./samples/06-multi-agent/) *(optional)* | 15 min | Delegation to a tech support specialist agent |
+| 7 | [Evals](./samples/07-evals/) *(optional)* | 13 min | Automated quality testing with LLM-as-judge |
 
 Shared mock tools used across modules live in [`samples/shared/`](./samples/shared/).
 
@@ -74,13 +75,21 @@ aws configure
 
 Each module also ships its own `requirements.txt`, so you can install only what that module needs.
 
+**Module 5 (Deploy) also needs the AgentCore CLI** (Node.js 20+):
+
+```bash
+npm install -g @aws/agentcore
+```
+
+> If you previously installed `bedrock-agentcore-starter-toolkit`, uninstall it (`pip uninstall bedrock-agentcore-starter-toolkit`) - it ships an older `agentcore` CLI that conflicts with this one.
+
 ## What are the prerequisites?
 
 | Requirement | Detail |
 |-------------|--------|
 | Python | 3.10 or higher |
 | AWS credentials | Amazon Bedrock model access for Claude Sonnet 4 |
-| Extra permissions (Module 7) | AWS Lambda, AgentCore Gateway, AgentCore Memory |
+| Deploy module (Module 5) | Node.js 20+, the `@aws/agentcore` CLI, `uv`, and AWS CDK; provisions an AgentCore Runtime + Amazon S3 staging via CloudFormation |
 
 ---
 
@@ -107,7 +116,7 @@ See [Module 1](./samples/01-agent-loop-tools/) for the full walkthrough and an i
 ## Frequently asked questions
 
 **Do I need to complete the modules in order?**
-Yes. Each module builds on the previous one — the same customer service agent gains a new capability in every module.
+Work through Modules 1–5 in order — each builds on the previous one, ending with the agent deployed to AgentCore Runtime. Modules 6 (Multi-Agent) and 7 (Evals) are optional extensions on the same agent; take them in any order, or skip them.
 
 **Which Claude model does this use?**
 The modules default to Claude Sonnet 4 via Amazon Bedrock. You need Bedrock model access enabled in your AWS account.
@@ -122,7 +131,7 @@ The patterns shown here — tool use, hooks, session memory, multi-agent handoff
 About 90 minutes for all 7 modules. Each module is self-contained and takes 10–15 minutes.
 
 **Do I need AWS resources to run the early modules?**
-You need Amazon Bedrock access from Module 1. Additional services (AWS Bedrock AgentCore Runtime, Amazon S3) are only required for the deployment module.
+You need Amazon Bedrock access from Module 1. Additional services (Amazon Bedrock AgentCore Runtime, Amazon S3) are only required for the deployment module (Module 5).
 
 ---
 

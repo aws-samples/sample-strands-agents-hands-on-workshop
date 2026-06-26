@@ -1,4 +1,6 @@
-# Module 6: Evals
+# Module 7: Evals (Optional)
+
+> **Optional module.** You've already built and deployed a complete agent in Modules 1–5. This module adds automated evaluation on top of that same agent.
 
 Run automated evaluations against the customer service agent: an **output eval** (is the response good?) and a **trajectory eval** (did it follow the right workflow?).
 
@@ -17,13 +19,13 @@ Test cases run against the agent, then evaluators score the results: the `Output
 
 | File | Purpose |
 |------|---------|
-| `module-06-evals.ipynb` | Walkthrough: output eval, then trajectory eval |
+| `module-07-evals.ipynb` | Walkthrough: output eval, then trajectory eval |
 | `customer_service_tools.py` | Mock tools (shared across modules) |
 | `requirements.txt` | Adds `strands-agents-evals` |
 
 ## How do I run it?
 
-Open `module-06-evals.ipynb` in **VS Code** or **JupyterLab** and run the cells top to bottom.
+Open `module-07-evals.ipynb` in **VS Code** or **JupyterLab** and run the cells top to bottom.
 
 ## Output vs. trajectory
 
@@ -34,4 +36,4 @@ Open `module-06-evals.ipynb` in **VS Code** or **JupyterLab** and run the cells 
 
 ## What's next
 
-The agent is validated. **[Module 7: Deploy](../07-deploy/)** packages it as a production service on Bedrock AgentCore Runtime.
+The agent is validated — and you already deployed it back in **[Module 5: Deploy](../05-deploy/)**. That completes the workshop. To take the agent to production operations (managed Gateway tools, memory, and observability), see the follow-on workshop.

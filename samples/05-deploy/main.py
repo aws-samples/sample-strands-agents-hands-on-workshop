@@ -48,7 +48,7 @@ def invoke(payload, context):
 
     agent = get_agent()
     response = agent(prompt)
-    return {"response": str(response)}
+    return str(response).strip()
 
 
 if __name__ == "__main__":

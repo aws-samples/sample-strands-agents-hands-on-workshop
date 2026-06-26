@@ -26,6 +26,19 @@ Thumbs.db
 .env.local
 .env.*.local
 
+# Session files written by FileSessionManager (Module 4 notebook + chat.py)
+sessions/
+
+# AgentCore CLI scaffolding generated during Module 5 deploy (per-participant,
+# contains account IDs / deployed state - must never be committed)
+agentcore/
+app/MyAgent/
+.python-version
+# Local agentcore test project folder used while authoring Module 5
+samples/05-deploy/eli/
+# Stray local npm manifest from installing the CLI per-project (CLI is installed globally)
+samples/05-deploy/package.json
+
 # Logs
 *.log
 npm-debug.log*

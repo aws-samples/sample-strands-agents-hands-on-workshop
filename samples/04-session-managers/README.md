@@ -38,4 +38,4 @@ Recreate the agent later with the same `session_id` and it reloads the saved mes
 
 ## What's next
 
-**[Module 5: Multi-Agent](../05-multi-agent/)** adds delegation: the agent escalates technical issues to a specialist agent.
+**[Module 5: Deploy](../05-deploy/)** packages this same agent and deploys it to Amazon Bedrock AgentCore Runtime with a single CLI command.

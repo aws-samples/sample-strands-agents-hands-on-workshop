@@ -1,4 +1,6 @@
-# Module 5: Multi-Agent
+# Module 6: Multi-Agent (Optional)
+
+> **Optional module.** You've already built and deployed a complete agent in Modules 1–5. This module adds delegation on top of that same agent.
 
 Add agent delegation. When the customer service agent hits a technical issue, it escalates to a **tech support specialist** agent using the agents-as-tools pattern.
 
@@ -16,12 +18,12 @@ With the agents-as-tools pattern, the orchestrator treats a specialist agent as 
 
 | File | Purpose |
 |------|---------|
-| `module-05-multi-agent.ipynb` | Walkthrough: build the specialist, wrap it as a tool, let the orchestrator route |
+| `module-06-multi-agent.ipynb` | Walkthrough: build the specialist, wrap it as a tool, let the orchestrator route |
 | `customer_service_tools.py` | Mock tools (shared across modules) |
 
 ## How do I run it?
 
-Open `module-05-multi-agent.ipynb` in **VS Code** or **JupyterLab** and run the cells top to bottom.
+Open `module-06-multi-agent.ipynb` in **VS Code** or **JupyterLab** and run the cells top to bottom.
 
 ## Key concept
 
@@ -41,4 +43,4 @@ Order questions stay with the orchestrator; device problems get delegated.
 
 ## What's next
 
-**[Module 6: Evals](../06-evals/)** adds automated tests to verify the agent behaves correctly at scale.
+**[Module 7: Evals](../07-evals/)** adds automated tests to verify the agent behaves correctly at scale.
