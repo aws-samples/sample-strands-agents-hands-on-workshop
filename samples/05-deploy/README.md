@@ -84,11 +84,14 @@ print("".join(chunk.decode("utf-8") for chunk in response.get("response", [])))
 
 ## Cleanup
 
+Cleanup is two steps - reset the config, then deploy the empty state so AWS removes the resources:
+
 ```bash
-agentcore remove all -y
+agentcore remove all -y    # clears the local config (does NOT touch AWS yet)
+agentcore deploy           # applies the teardown - removes the runtime from AWS
 ```
 
-This tears down the AgentCore Runtime and its supporting AWS resources.
+`agentcore remove all -y` only resets the local project config; the follow-up `agentcore deploy` actually deletes the AgentCore Runtime and its CloudFormation stack.
 
 ## What's next
 
