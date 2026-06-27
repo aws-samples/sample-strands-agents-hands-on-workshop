@@ -48,7 +48,7 @@ cd <project-name>
 agentcore add
 
 # 4. Copy your agent code into the app folder the CLI created
-cp ../main.py ../customer_service_tools.py ../steering_handlers.py app/MyAgent/
+cp ../main.py ../customer_service_tools.py ../steering_handlers.py ../requirements.txt app/MyAgent/
 cp -r ../skills app/MyAgent/
 
 # 5. Set up dependencies in app/MyAgent/ (creates pyproject.toml + .venv)
