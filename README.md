@@ -75,10 +75,10 @@ aws configure
 
 Each module also ships its own `requirements.txt`, so you can install only what that module needs.
 
-**Module 5 (Deploy) also needs the AgentCore CLI** (Node.js 20+):
+**Module 5 (Deploy) also needs the AgentCore CLI** (Node.js 20+). A global install needs root, so use `sudo`:
 
 ```bash
-npm install -g @aws/agentcore
+sudo npm install -g @aws/agentcore
 ```
 
 > If you previously installed `bedrock-agentcore-starter-toolkit`, uninstall it (`pip uninstall bedrock-agentcore-starter-toolkit`) - it ships an older `agentcore` CLI that conflicts with this one.

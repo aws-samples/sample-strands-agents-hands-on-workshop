@@ -16,7 +16,7 @@ A deployable agent wrapped in `BedrockAgentCoreApp` with an `@app.entrypoint`, d
 
 ## Prerequisites
 
-- **Node.js 20+** and the AgentCore CLI: `npm install -g @aws/agentcore`
+- **Node.js 20+** and the AgentCore CLI: `sudo npm install -g @aws/agentcore` (a global install needs root)
 - **uv** (for the Python project) and **AWS credentials** with AgentCore access
 - Do **not** install the old `bedrock-agentcore-starter-toolkit` - it conflicts with the current CLI (its `configure` command no longer exists here).
 
