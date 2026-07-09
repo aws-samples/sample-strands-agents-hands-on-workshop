@@ -61,9 +61,12 @@ cd ../..
 agentcore dev                                          # local server for testing
 agentcore deploy                                       # package to S3 + provision runtime
 agentcore invoke "Hi, I'm customer C-1001. What are my recent orders?"
+
+# Keep context across calls with --session-id (must be at least 33 characters)
+agentcore invoke --session-id customer-1001-session-refund-000001 "I need a refund for order ORD-5521"
 ```
 
-(Adjust `MyAgent` to the name you chose.) The `uv init` / `uv add` step is required: `agentcore deploy` builds from a `pyproject.toml`, and `agentcore dev` needs the `.venv`.
+(Adjust `MyAgent` to the name you chose.) The `uv init` / `uv add` step is required: `agentcore deploy` builds from a `pyproject.toml`, and `agentcore dev` needs the `.venv`. A `--session-id` shorter than 33 characters fails with `Value at 'runtimeSessionId' failed to satisfy constraint: Member must have length greater than or equal to 33`.
 
 ## Invoke from code (boto3)
 
