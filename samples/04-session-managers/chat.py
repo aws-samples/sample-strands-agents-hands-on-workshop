@@ -54,6 +54,8 @@ def main():
         plugins=[AgentSkills(skills=["./skills"])],
         system_prompt=SYSTEM_PROMPT,
         conversation_manager=SlidingWindowConversationManager(window_size=20),
+        # Alternative: context_manager="auto" uses SummarizingConversationManager with
+        # proactive compression — smarter than sliding window but not yet in the official docs.
         session_manager=session_manager,
     )
 
