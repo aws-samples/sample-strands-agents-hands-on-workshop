@@ -121,6 +121,26 @@ Work through Modules 1–5 in order — each builds on the previous one, ending 
 **Which Claude model does this use?**
 The modules default to Claude Sonnet 4 via Amazon Bedrock. You need Bedrock model access enabled in your AWS account.
 
+**I'm using AWS-provided credits from a sponsored event — how do I use them?**
+AWS credits issued for hackathons and workshops only cover Amazon Nova models, not Claude. To switch any agent to Nova, import `BedrockModel` and pass it to `Agent(...)`:
+
+```python
+from strands.models import BedrockModel
+
+model = BedrockModel(model_id="amazon.nova-pro-v1:0")
+agent = Agent(model=model, tools=[...], system_prompt=...)
+```
+
+Available Nova model IDs — see the [Amazon Bedrock model cards](https://docs.aws.amazon.com/bedrock/latest/userguide/model-cards-amazon.html) for the full list:
+
+| Model ID | Description |
+|----------|-------------|
+| `amazon.nova-micro-v1:0` | Fastest, text-only, lowest cost |
+| `amazon.nova-lite-v1:0` | Low-cost, multimodal (text, image, video) |
+| `amazon.nova-pro-v1:0` | Balanced accuracy/speed, multimodal (recommended) |
+
+Each notebook and `chat.py` file includes a commented example showing exactly where to make this change.
+
 **What is the difference between an agent framework and an agent harness?**
 A framework gives you the orchestration loop (model calls, tool selection, context). A harness is the full system that lets the agent run: the loop *plus* compute, a code sandbox, tool connections, memory, identity, and observability. 
 
