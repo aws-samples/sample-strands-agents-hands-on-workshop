@@ -121,6 +121,30 @@ Work through Modules 1–5 in order — each builds on the previous one, ending 
 **Which Claude model does this use?**
 The modules default to Claude Sonnet 4 via Amazon Bedrock. You need Bedrock model access enabled in your AWS account.
 
+**Can I run this locally without AWS credentials, using Ollama?**
+Yes. Install [Ollama](https://ollama.com/download), pull a model that supports tool use, install the Strands Ollama extra, then pass `OllamaModel` to `Agent(...)`:
+
+```bash
+# 1. Install Ollama (macOS: download DMG from ollama.com; Linux: curl below; Windows: installer from ollama.com/download/windows)
+curl -fsSL https://ollama.com/install.sh | sh   # Linux only
+
+# 2. Pull a model with tool/function-calling support
+ollama pull llama3.1   # recommended — widely tested with tool use
+
+# 3. Install the Strands Ollama extra
+pip install strands-agents[ollama]
+```
+
+```python
+from strands import Agent
+from strands.models import OllamaModel
+
+model = OllamaModel(host="http://localhost:11434", model_id="llama3.1")
+agent = Agent(model=model, tools=[...], system_prompt=...)
+```
+
+Other models with tool support: `llama3.2`, `qwen2.5`, `qwen3`, `mistral`. See the [Ollama model library](https://ollama.com/library) for the full list. Each notebook and `chat.py` includes a commented example.
+
 **I'm using AWS-provided credits from a sponsored event — how do I use them?**
 AWS credits issued for hackathons and workshops only cover Amazon Nova models, not Claude. To switch any agent to Nova, import `BedrockModel` and pass it to `Agent(...)`:
 
