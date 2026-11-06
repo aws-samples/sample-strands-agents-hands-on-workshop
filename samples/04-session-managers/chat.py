@@ -1,8 +1,8 @@
 """Interactive multi-turn chat for Module 4: Session Managers.
 
 The notebook runs the agent one prompt at a time (each cell is one turn). This
-script wraps the same agent - backed by FileSessionManager - in a loop so you
-can hold a real multi-turn conversation in the terminal.
+script wraps the same agent - backed by SnapshotSessionManager - in a loop so
+you can hold a real multi-turn conversation in the terminal.
 
 Because the session is persisted to disk, this is also the persistence demo:
 quit the script, run it again with the same --session-id, and the agent
@@ -22,7 +22,8 @@ import argparse
 
 from strands import Agent, AgentSkills
 from strands.models import BedrockModel
-from strands.session.file_session_manager import FileSessionManager
+from strands.session import SnapshotSessionManager
+from strands.storage import LocalFileStorage
 
 # AWS-sponsored events / AWS credits: credits only cover Amazon Nova models, not Claude.
 # To switch, pass model=BedrockModel(model_id="...") to Agent(...).
@@ -56,12 +57,13 @@ def main():
     )
     args = parser.parse_args()
 
-    # FileSessionManager persists conversation state to ./sessions. Reusing the
-    # same session_id across runs restores the prior conversation, so memory
-    # survives both turns and full restarts.
-    session_manager = FileSessionManager(
+    # SnapshotSessionManager persists the whole agent as one atomic blob via the
+    # unified Storage backend. Use LocalFileStorage for dev; swap it for
+    # S3Storage (strands.storage.S3Storage) in production without other changes.
+    # Reusing the same session_id across runs restores the prior conversation.
+    session_manager = SnapshotSessionManager(
         session_id=args.session_id,
-        storage_dir="./sessions",
+        storage=LocalFileStorage("./sessions"),
     )
 
     agent = Agent(

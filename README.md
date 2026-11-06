@@ -78,9 +78,11 @@ Each module also ships its own `requirements.txt`, so you can install only what 
 **Module 5 (Deploy) also needs the AgentCore CLI** (Node.js 20+). A global install needs root, so use `sudo`:
 
 ```bash
-sudo npm install -g @aws/agentcore --ignore-scripts
+sudo npm install -g @aws/agentcore@1.0.1 --ignore-scripts
 agentcore --version
 ```
+
+Module 5 was tested with AgentCore CLI 1.0.1; other versions may use different commands.
 
 > `--ignore-scripts` skips the package's `postinstall`, which only warns about the old `bedrock-agentcore-starter-toolkit`. Without it, on some npm 10.8.x setups that script can abort the install and leave a broken `agentcore` command. Always confirm with `agentcore --version` - if it prints `bash: agentcore: command not found`, re-run the install command above.
 

@@ -26,7 +26,7 @@ Thumbs.db
 .env.local
 .env.*.local
 
-# Session files written by FileSessionManager (Module 4 notebook + chat.py)
+# Session files written by SnapshotSessionManager (Module 4 notebook + chat.py)
 sessions/
 # Snapshot session blobs written by SnapshotSessionManager (Module 4 notebook)
 snapshot_sessions/

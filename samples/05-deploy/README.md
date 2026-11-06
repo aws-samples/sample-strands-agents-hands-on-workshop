@@ -19,9 +19,11 @@ A deployable agent wrapped in `BedrockAgentCoreApp` with an `@app.entrypoint`, d
 - **Node.js 20+** and the AgentCore CLI (a global install needs root):
 
   ```bash
-  sudo npm install -g @aws/agentcore --ignore-scripts
+  sudo npm install -g @aws/agentcore@1.0.1 --ignore-scripts
   agentcore --version
   ```
+
+  These steps were tested with AgentCore CLI 1.0.1; other versions may use different commands.
 
   `--ignore-scripts` skips the package's `postinstall`, which only warns about the old toolkit; on some npm 10.8.x setups that script can abort the install and leave `agentcore` broken. If `agentcore --version` prints `bash: agentcore: command not found`, re-run the install command above.
 - **uv** (for the Python project) and **AWS credentials** with AgentCore access
@@ -43,16 +45,14 @@ A deployable agent wrapped in `BedrockAgentCoreApp` with an `@app.entrypoint`, d
 Run these from this folder (`samples/05-deploy`):
 
 ```bash
-# 1. Create the project (interactive): enter a name, then choose "Skip"
-agentcore create
+# 1. Create an empty project (no agent code yet)
+agentcore create --name csdeploy --template empty
 
 # 2. Move into the project the CLI just created
-cd <project-name>
+cd csdeploy
 
-# 3. Add your existing agent (interactive): agent -> name ->
-#    "Bring my own code" -> Enter (code location) -> Enter (entrypoint) ->
-#    "Direct Code Deploy" -> "Amazon Bedrock" -> Enter (advanced) -> confirm
-agentcore add
+# 3. Add a runtime for your existing agent (bring your own code, direct code deploy)
+agentcore add runtime --name MyAgent --language python
 
 # 4. Copy your agent code into the app folder the CLI created
 cp ../main.py ../customer_service_tools.py ../steering_handlers.py ../requirements.txt app/MyAgent/
@@ -64,13 +64,21 @@ uv init --bare --python 3.13
 uv add strands-agents bedrock-agentcore aws-opentelemetry-distro boto3
 cd ../..
 
-# 6. Test locally, then deploy and invoke
-agentcore dev                                          # local server for testing
-agentcore deploy                                       # package to S3 + provision runtime
-agentcore invoke "Hi, I'm customer C-1001. What are my recent orders?"
+# 6. Test locally (optional): start the server, then invoke it from a second terminal
+agentcore dev
+agentcore invoke --local --runtime MyAgent --payload '{"prompt": "Hi, I am customer C-1001. What are my recent orders?"}'
+
+# 7. Deploy (package to S3 + provision runtime) and invoke
+agentcore deploy
+agentcore invoke --runtime MyAgent --payload '{"prompt": "Hi, I am customer C-1001. What are my recent orders?"}'
 
 # Keep context across calls with --session-id (must be at least 33 characters)
-agentcore invoke --session-id customer-1001-session-refund-000001 "I need a refund for order ORD-5521"
+agentcore invoke --runtime MyAgent --session-id customer-1001-session-orders-0000001 --payload '{"prompt": "Hi, I am customer C-1001. What are my recent orders?"}'
+agentcore invoke --runtime MyAgent --session-id customer-1001-session-orders-0000001 --payload '{"prompt": "Which of those orders is still on its way?"}'
+
+# If a steering handler pauses process_refund for approval, the reply is
+# {"status": "interrupted", "interrupts": [...]}. Answer it in the same session:
+agentcore invoke --runtime MyAgent --session-id customer-1001-session-orders-0000001 --payload '{"interrupt_responses": [{"interruptId": "<interruptId>", "response": true}]}'
 ```
 
 (Adjust `MyAgent` to the name you chose.) The `uv init` / `uv add` step is required: `agentcore deploy` builds from a `pyproject.toml`, and `agentcore dev` needs the `.venv`. A `--session-id` shorter than 33 characters fails with `Value at 'runtimeSessionId' failed to satisfy constraint: Member must have length greater than or equal to 33`.
@@ -97,11 +105,11 @@ print("".join(chunk.decode("utf-8") for chunk in response.get("response", [])))
 Cleanup is two steps - reset the config, then deploy the empty state so AWS removes the resources:
 
 ```bash
-agentcore remove all -y    # clears the local config (does NOT touch AWS yet)
-agentcore deploy           # applies the teardown - removes the runtime from AWS
+agentcore remove all --yes    # clears the local config (does NOT touch AWS yet)
+agentcore deploy --yes        # applies the teardown - removes the runtime from AWS
 ```
 
-`agentcore remove all -y` only resets the local project config; the follow-up `agentcore deploy` actually deletes the AgentCore Runtime and its CloudFormation stack.
+`agentcore remove all --yes` only resets the local project config; the follow-up `agentcore deploy --yes` actually deletes the AgentCore Runtime and its CloudFormation stack.
 
 ## What's next
 

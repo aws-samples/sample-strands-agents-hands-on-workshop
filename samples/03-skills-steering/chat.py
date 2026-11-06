@@ -76,7 +76,22 @@ def main():
             continue
 
         print("\nAgent: ", end="")
-        agent(user_input)
+        result = agent(user_input)
+
+        # A steering handler can pause a tool call for human approval (interrupt).
+        # Answer each pending interrupt, then resume the agent with the responses.
+        while result.stop_reason == "interrupt":
+            responses = []
+            for interrupt in result.interrupts:
+                answer = input(f"\n\nApproval needed ({interrupt.name}): {interrupt.reason}\nApprove? (y/N): ")
+                responses.append({
+                    "interruptResponse": {
+                        "interruptId": interrupt.id,
+                        "response": answer.strip().lower() == "y",
+                    }
+                })
+            print("\nAgent: ", end="")
+            result = agent(responses)
         print()
 
 

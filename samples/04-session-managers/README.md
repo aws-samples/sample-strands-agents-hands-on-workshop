@@ -4,7 +4,7 @@ Add persistence to the customer service agent. Stop it, restart it, and watch it
 
 ## What you'll build
 
-An agent backed by a **session manager** that saves state to disk and reloads it on restart — so a new agent instance with the same `session_id` keeps its memory. The recommended manager for new sessions is `SnapshotSessionManager`; the notebook also shows the record-based `FileSessionManager`.
+An agent backed by a **session manager** that saves state to disk and reloads it on restart — so a new agent instance with the same `session_id` keeps its memory. It uses `SnapshotSessionManager`, the recommended manager for new single-agent sessions, together with `context_manager="auto"` to manage what stays in the model's context.
 
 ## Architecture
 
@@ -17,8 +17,7 @@ The session manager persists agent state outside the process. `SnapshotSessionMa
 | File | Purpose |
 |------|---------|
 | `module-04-session-managers.ipynb` | Walkthrough: no-persistence problem → add session manager → restart and remember |
-| `chat.py` | Terminal chat backed by `FileSessionManager` (record-based persistence) |
-| `snapshot_chat.py` | Terminal chat backed by `SnapshotSessionManager` (recommended for new sessions) |
+| `chat.py` | Terminal chat backed by `SnapshotSessionManager` |
 | `steering_handlers.py` | Steering handlers carried over from Module 3 |
 | `skills/` | Workflow skills carried over from Module 3 |
 | `customer_service_tools.py` | Mock tools (shared across modules) |
@@ -36,13 +35,12 @@ The session manager persists agent state outside the process. `SnapshotSessionMa
 
 ## How do I run it?
 
-Open `module-04-session-managers.ipynb` in **VS Code** or **JupyterLab** and run the cells top to bottom. Session files are written to local `sessions/` (record-based) and `snapshot_sessions/` (snapshot) folders.
+Open `module-04-session-managers.ipynb` in **VS Code** or **JupyterLab** and run the cells top to bottom. Session files are written to a local `sessions/` folder.
 
-For a multi-turn terminal chat, run either script and re-run it with the same `--session-id` to see it resume:
+For a multi-turn terminal chat, run `chat.py` and re-run it with the same `--session-id` to see it resume:
 
 ```bash
-python snapshot_chat.py   # recommended: SnapshotSessionManager
-python chat.py            # record-based: FileSessionManager
+python chat.py
 ```
 
 ## Key concept
@@ -55,18 +53,10 @@ session_manager = SnapshotSessionManager(
     session_id="customer-session-001",
     storage=LocalFileStorage("./sessions"),
 )
-agent = Agent(tools=[...], session_manager=session_manager)
+agent = Agent(tools=[...], context_manager="auto", session_manager=session_manager)
 ```
 
 Recreate the agent later with the same `session_id` and it reloads the saved state. Swap `LocalFileStorage` for `S3Storage` to persist in the cloud without changing your session logic.
-
-The record-based `FileSessionManager` (used in the notebook and `chat.py`) works the same way at the call site:
-
-```python
-from strands.session.file_session_manager import FileSessionManager
-
-session_manager = FileSessionManager(session_id="customer-session-001", storage_dir="./sessions")
-```
 
 ## Session vs memory
 
@@ -75,7 +65,7 @@ Session managers handle **conversation persistence** within a single session, so
 - **Session** = persist the conversation so the agent can resume after a restart.
 - **Memory** = durable knowledge across sessions, without replaying past conversations.
 
-They serve different purposes and are often used together. See the [Memory docs](https://strandsagents.com/docs/user-guide/concepts/memory/overview/) for more.
+They serve different purposes and are often used together. See the [Memory docs](https://strandsagents.com/docs/user-guide/sdk/memory/overview/) for more.
 
 ## What's next
 
