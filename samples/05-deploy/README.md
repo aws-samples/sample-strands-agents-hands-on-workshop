@@ -65,8 +65,8 @@ uv add strands-agents bedrock-agentcore aws-opentelemetry-distro boto3
 cd ../..
 
 # 6. Test locally (optional): start the server, then invoke it from a second terminal
-agentcore dev
-agentcore invoke --local --runtime MyAgent --payload '{"prompt": "Hi, I am customer C-1001. What are my recent orders?"}'
+agentcore dev --port 8081
+agentcore invoke --local --runtime MyAgent --port 8081 --payload '{"prompt": "Hi, I am customer C-1001. What are my recent orders?"}'
 
 # 7. Deploy (package to S3 + provision runtime) and invoke
 agentcore deploy
