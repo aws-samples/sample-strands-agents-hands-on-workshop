@@ -27,7 +27,7 @@ class RefundWorkflowHandler(SteeringHandler):
         if tool_use.get("name") != "process_refund":
             return Proceed(reason="Not a refund operation")
 
-        ledger = self.steering_context.data.get("ledger", {})
+        ledger = self.steering_context.data.get("ledger") or {}
         tool_calls = ledger.get("tool_calls", [])
 
         customer_verified = any(
